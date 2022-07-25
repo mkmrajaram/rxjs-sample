@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import inputsData from "./data/inputs.json";
+import { from } from "rxjs";
+import { map } from "rxjs/operators";
+import Input from "./components/CustomInput/CustomInput";
+
+let inputsElements = from(inputsData);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [inputs, setInputs] = useState(null);
+
+    useEffect(() => {
+        getObservableElements();
+    }, []);
+
+    const getObservableElements = () => {
+        let inputsEl = [];
+        inputsElements.subscribe({
+            next: (item) => inputsEl.push(item),
+            error: (err) => {
+                console.log("Error", err);
+                setInputs(null);
+            },
+            complete: () => {
+                setInputs(inputsEl);
+            },
+        });
+    };
+
+    const changeValue = (e) => {
+        inputsElements = inputsElements.pipe(
+            map((item) => {
+                return { ...item, value: e.target.value };
+            }),
+        );
+        getObservableElements();
+    };
+
+    return <div className="App">{inputs && inputs.map((item, index) => <Input onChange={changeValue} key={index} {...item} />)}</div>;
 }
 
 export default App;

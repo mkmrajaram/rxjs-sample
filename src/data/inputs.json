@@ -1,0 +1,23 @@
+[
+    {
+        "label": "Text 1",
+        "name": "text_1",
+        "type": "text",
+        "placeholder": "Enter the text",
+        "value": ""
+    },
+    {
+        "label": "Text 2",
+        "name": "text_2",
+        "type": "text",
+        "placeholder": "Enter the text",
+        "value": ""
+    },
+    {
+        "label": "Text 3",
+        "name": "text_3",
+        "type": "text",
+        "placeholder": "Enter the text",
+        "value": ""
+    }
+]
