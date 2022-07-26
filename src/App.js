@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import inputsData from "./data/inputs.json";
+import inputsData from "./data/inputs";
 import { from } from "rxjs";
 import { map } from "rxjs/operators";
 import Input from "./components/CustomInput/CustomInput";
@@ -11,6 +11,14 @@ function App() {
     const [inputs, setInputs] = useState(null);
 
     useEffect(() => {
+        inputsElements = inputsElements.pipe(
+            map((item) => {
+                if (item.onChange) {
+                    item.onChange = changeValue;
+                }
+                return item;
+            }),
+        );
         getObservableElements();
     }, []);
 
@@ -37,7 +45,7 @@ function App() {
         getObservableElements();
     };
 
-    return <div className="App">{inputs && inputs.map((item, index) => <Input onChange={changeValue} key={index} {...item} />)}</div>;
+    return <div className="App">{inputs && inputs.map((item, index) => <Input key={index} {...item} />)}</div>;
 }
 
 export default App;

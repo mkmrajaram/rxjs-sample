@@ -4,7 +4,8 @@
         "name": "text_1",
         "type": "text",
         "placeholder": "Enter the text",
-        "value": ""
+        "value": "",
+        "onChange": "true"
     },
     {
         "label": "Text 2",
